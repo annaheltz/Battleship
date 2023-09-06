@@ -1,0 +1,48 @@
+/* Styles for the background */
+body 
+{
+	background-size: cover;
+	background-repeat: repeat-y;
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	color: #222;
+}
+
+/* Helper styles for getting the background image to work correctly */
+html 
+{
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	font-family: sans-serif;
+}
+  
+
+h1 
+{
+	font-size: 4em;
+	margin: 20px;
+	text-align: center;
+}
+#winner { 
+
+    font-size: 2em;
+	margin: 20px;
+	text-align: center;
+}
+
+#displayScore { 
+    text-align: center;
+    margin: 20px;
+    position: relative;
+
+}
+
+#loserScore { 
+    text-align: center;
+    margin: 20px;
+
+}
+
+

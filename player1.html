@@ -1,0 +1,1655 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- Link in the CSS file -->
+    <link rel="stylesheet" type="text/css" href="boards.css">
+    <title>Battleship Game</title>
+</head>
+
+<body>
+
+    <button id="beginP1" style="visibility:visible" onclick="showGrids()"> Click to begin your turn</button>
+    <p id = "display" style="visibility:hidden">Take a shot on the enemy grid</p>
+
+    <script>
+        var name1 = localStorage.getItem("p1name");
+        var name2 = localStorage.getItem("p2name");
+        var ships1 = localStorage.getItem("p1ships");
+        var ships2 = localStorage.getItem("p2ships");
+
+        // console.log(name1);
+        // console.log(name2);
+        // console.log(ships1);
+        // console.log(ships2);
+
+        var n = "-";
+        document.getElementById("beginP1").innerHTML = "Click to begin " + name1 + "'s turn!";
+
+        var myGrid = [[n, n, n, n, n, n, n, n, n, n],
+        [n, n, n, n, n, n, n, n, n, n],
+        [n, n, n, n, n, n, n, n, n, n],
+        [n, n, n, n, n, n, n, n, n, n],
+        [n, n, n, n, n, n, n, n, n, n],
+        [n, n, n, n, n, n, n, n, n, n],
+        [n, n, n, n, n, n, n, n, n, n],
+        [n, n, n, n, n, n, n, n, n, n],
+        [n, n, n, n, n, n, n, n, n, n],
+        [n, n, n, n, n, n, n, n, n, n],];
+
+        var enemyGrid = [[n, n, n, n, n, n, n, n, n, n],
+        [n, n, n, n, n, n, n, n, n, n],
+        [n, n, n, n, n, n, n, n, n, n],
+        [n, n, n, n, n, n, n, n, n, n],
+        [n, n, n, n, n, n, n, n, n, n],
+        [n, n, n, n, n, n, n, n, n, n],
+        [n, n, n, n, n, n, n, n, n, n],
+        [n, n, n, n, n, n, n, n, n, n],
+        [n, n, n, n, n, n, n, n, n, n],
+        [n, n, n, n, n, n, n, n, n, n],];
+
+        myGrid = setGrid(ships1, myGrid);
+        enemyGrid = setGrid(ships2, enemyGrid);
+
+        //after we call create grid, we have a empty 10x10 array, with dashes for the misses
+        function setGrid(ships, grid) {
+            let aircraft = ships.substring(2, ships.indexOf(")"));
+            let help1 = ships.substring(ships.indexOf("B"));
+            let battle = help1.substring(2, help1.indexOf(")"));
+            let help = ships.substring(ships.indexOf("S"));
+            let sub = help.substring(2, help.indexOf(")"));
+
+            console.log(aircraft);
+            console.log(battle);
+            console.log(sub);
+
+            let a = "A";
+            let b = "B";
+            let c = "C";
+            let d = "D";
+            let e = "E";
+            let f = "F";
+            let g = "G";
+            let h = "H";
+            let i = "I";
+            let j = "J";
+            let ten = 10;
+
+            //set aircraft ship in position
+            if (aircraft.charAt(0) == a) {
+                if (aircraft.substring(1).indexOf(a) != -1) //ship is going vertical, same column, because second coordinate is same row
+                {
+                    var count;
+                    if (aircraft.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(aircraft.charAt(1));
+                    }
+                    else if (aircraft.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else//first position is 10
+                    {
+                        count = 10;
+                    }
+                    grid[count - 1][0] = "A";
+                    grid[count][0] = "A";
+                    grid[count + 1][0] = "A";
+                    grid[count + 2][0] = "A";
+                    grid[count + 3][0] = "A";
+                }
+                else//ship is going horizantally,because second coordinate is not same row
+                {
+                    var count;
+                    if (aircraft.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(aircraft.charAt(1));
+                    }
+                    else if (aircraft.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else {
+                        count = 10;
+                    }
+                    grid[count - 1][0] = "A";
+                    grid[count - 1][1] = "A";
+                    grid[count - 1][2] = "A";
+                    grid[count - 1][3] = "A";
+                    grid[count - 1][4] = "A";
+                    //cant go horizontally if starting at 10
+                }
+            }
+            else if (aircraft.charAt(0) == b) {
+                if (aircraft.substring(1).indexOf(b) != -1)  //ship is going vertical, same column, because second coordinate is same row
+                {
+                    var count;
+                    if (aircraft.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(aircraft.charAt(1));
+                    }
+                    else if (aircraft.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else//first position is 10
+                    {
+                        count = 10;
+                    }
+                    grid[count - 1][1] = "A";
+                    grid[count][1] = "A";
+                    grid[count + 1][1] = "A";
+                    grid[count + 2][1] = "A";
+                    grid[count + 3][1] = "A";
+                }
+                else//ship is going horizantally,because second coordinate is not same row
+                {
+                    var count;
+                    if (aircraft.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(aircraft.charAt(1));
+                    }
+                    else if (aircraft.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else {
+                        count = 10;
+                    }
+                    grid[count - 1][1] = "A";
+                    grid[count - 1][2] = "A";
+                    grid[count - 1][3] = "A";
+                    grid[count - 1][4] = "A";
+                    grid[count - 1][5] = "A";
+                    //cant go horizontally if starting at 10
+                }
+            }
+            else if (aircraft.charAt(0) == c) {
+                if (aircraft.substring(1).indexOf(c) != -1)  //ship is going vertical, same column, because second coordinate is same row
+                {
+                    var count;
+                    if (aircraft.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(aircraft.charAt(1));
+                    }
+                    else if (aircraft.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else//first position is 10
+                    {
+                        count = 10;
+                    }
+                    grid[count - 1][2] = "A";
+                    grid[count][2] = "A";
+                    grid[count + 1][2] = "A";
+                    grid[count + 2][2] = "A";
+                    grid[count + 3][2] = "A";
+                }
+                else//ship is going horizantally,because second coordinate is not same row
+                {
+                    var count;
+                    if (aircraft.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(aircraft.charAt(1));
+                    }
+                    else if (aircraft.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else {
+                        count = 10;
+                    }
+                    grid[count - 1][2] = "A";
+                    grid[count - 1][3] = "A";
+                    grid[count - 1][4] = "A";
+                    grid[count - 1][5] = "A";
+                    grid[count - 1][6] = "A";
+                    //cant go horizontally if starting at 10
+                }
+            }
+            else if (aircraft.charAt(0) == d) {
+                if (aircraft.substring(1).indexOf(d) != -1)  //ship is going vertical, same column, because second coordinate is same row
+                {
+                    var count;
+                    if (aircraft.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(aircraft.charAt(1));
+                    }
+                    else if (aircraft.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else//first position is 10
+                    {
+                        count = 10;
+                    }
+                    grid[count - 1][3] = "A";
+                    grid[count][3] = "A";
+                    grid[count + 1][3] = "A";
+                    grid[count + 2][3] = "A";
+                    grid[count + 3][3] = "A";
+                }
+                else//ship is going horizantally,because second coordinate is not same row
+                {
+                    var count;
+                    if (aircraft.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(aircraft.charAt(1));
+                    }
+                    else if (aircraft.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else {
+                        count = 10;
+                    }
+                    grid[count - 1][3] = "A";
+                    grid[count - 1][4] = "A";
+                    grid[count - 1][5] = "A";
+                    grid[count - 1][6] = "A";
+                    grid[count - 1][7] = "A";
+                    //cant go horizontally if starting at 10
+                }
+
+            }
+            else if (aircraft.charAt(0) == e) {
+                if (aircraft.substring(1).indexOf(e) != -1)  //ship is going vertical, same column, because second coordinate is same row
+                {
+                    var count;
+                    if (aircraft.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(aircraft.charAt(1));
+                    }
+                    else if (aircraft.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else//first position is 10
+                    {
+                        count = 10;
+                    }
+                    grid[count - 1][4] = "A";
+                    grid[count][4] = "A";
+                    grid[count + 1][4] = "A";
+                    grid[count + 2][4] = "A";
+                    grid[count + 3][4] = "A";
+                }
+                else//ship is going horizantally,because second coordinate is not same row
+                {
+                    var count;
+                    if (aircraft.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(aircraft.charAt(1));
+                    }
+                    else if (aircraft.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else {
+                        count = 10;
+                    }
+                    grid[count - 1][4] = "A";
+                    grid[count - 1][5] = "A";
+                    grid[count - 1][6] = "A";
+                    grid[count - 1][7] = "A";
+                    grid[count - 1][8] = "A";
+                    //cant go horizontally if starting at 10
+                }
+            }
+            else if (aircraft.charAt(0) == f) {
+                if (aircraft.substring(1).indexOf(f) != -1)  //ship is going vertical, same column, because second coordinate is same row
+                {
+                    var count;
+                    if (aircraft.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(aircraft.charAt(1));
+                    }
+                    else if (aircraft.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                        console.log(count);
+                    }
+                    else//first position is 10
+                    {
+                        count = 10;
+                        console.log(count);
+                    }
+
+                    grid[count - 1][5] = "A";
+                    grid[count][5] = "A";
+                    grid[count + 1][5] = "A";
+                    grid[count + 2][5] = "A";
+                    grid[count + 3][5] = "A";
+                }
+                else//ship is going horizantally,because second coordinate is not same row
+                {
+                    var count;
+                    if (aircraft.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(aircraft.charAt(1));
+                    }
+                    else if (aircraft.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else {
+                        count = 10;
+                    }
+                    grid[count - 1][5] = "A";
+                    grid[count - 1][6] = "A";
+                    grid[count - 1][7] = "A";
+                    grid[count - 1][8] = "A";
+                    grid[count - 1][9] = "A";
+                    //cant go horizontally if starting at 10
+                }
+            }
+            else if (aircraft.charAt(0) == g) {
+                if (aircraft.substring(1).indexOf(g) != -1)  //ship is going vertical, same column, because second coordinate is same row
+                {
+                    var count;
+                    if (aircraft.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(aircraft.charAt(1));
+                    }
+                    else if (aircraft.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else//first position is 10
+                    {
+                        count = 10;
+                    }
+                    grid[count - 1][6] = "A";
+                    grid[count][6] = "A";
+                    grid[count + 1][6] = "A";
+                    grid[count + 2][6] = "A";
+                    grid[count + 3][6] = "A";
+                }
+                else//ship is going horizantally,because second coordinate is not same row
+                {
+                    //not possible
+                }
+            }
+            else if (aircraft.charAt(0) == h) {
+                if (aircraft.substring(1).indexOf(h) != -1)  //ship is going vertical, same column, because second coordinate is same row
+                {
+                    var count;
+                    if (aircraft.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(aircraft.charAt(1));
+                    }
+                    else if (aircraft.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else//first position is 10
+                    {
+                        count = 10;
+                    }
+                    grid[count - 1][7] = "A";
+                    grid[count][7] = "A";
+                    grid[count + 1][7] = "A";
+                    grid[count + 2][7] = "A";
+                    grid[count + 3][7] = "A";
+                }
+                else//ship is going horizantally,because second coordinate is not same row
+                {
+                    //not possible
+                }
+            }
+            else if (aircraft.charAt(0) == i) {
+                if (aircraft.substring(1).indexOf(i) != -1)  //ship is going vertical, same column, because second coordinate is same row
+                {
+                    var count;
+                    if (aircraft.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(aircraft.charAt(1));
+                    }
+                    else if (aircraft.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else//first position is 10
+                    {
+                        count = 10;
+                    }
+                    grid[count - 1][8] = "A";
+                    grid[count][8] = "A";
+                    grid[count + 1][8] = "A";
+                    grid[count + 2][8] = "A";
+                    grid[count + 3][8] = "A";
+                }
+                else//ship is going horizantally,because second coordinate is not same row
+                {
+                    //not possible
+                }
+            }
+            else if (aircraft.charAt(0) == j) {
+                if (aircraft.substring(1).indexOf(j) != -1) //ship is going vertical, same column, because second coordinate is same row
+                {
+                    var count;
+                    if (aircraft.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(aircraft.charAt(1));
+                    }
+                    else if (aircraft.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else//first position is 10
+                    {
+                        count = 10;
+                    }
+                    grid[count - 1][9] = "A";
+                    grid[count][9] = "A";
+                    grid[count + 1][9] = "A";
+                    grid[count + 2][9] = "A";
+                    grid[count + 3][9] = "A";
+                }
+                else//ship is going horizantally,because second coordinate is not same row
+                {
+                    //not possible
+                }
+            }
+
+            //set battle ship in position
+            if (battle.charAt(0) == a) {
+                if (battle.substring(1).indexOf(a) != -1) //ship is going vertical, same column, because second coordinate is not same row
+                {
+                    var count;
+                    if (battle.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(battle.charAt(1));
+                    }
+                    else if (battle.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else//first position is 10
+                    {
+                        count = 10;
+                    }
+                    grid[count - 1][0] = "B";
+                    grid[count][0] = "B";
+                    grid[count + 1][0] = "B";
+                    grid[count + 2][0] = "B";
+                }
+                else//ship is going horizantally, same row
+                {
+                    var count;
+                    if (battle.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(battle.charAt(1));
+                    }
+                    else if (battle.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else {
+                        count = 10;
+                    }
+                    grid[count - 1][0] = "B";
+                    grid[count - 1][1] = "B";
+                    grid[count - 1][2] = "B";
+                    grid[count - 1][3] = "B";
+                    //cant go horizontally if starting at 10
+                }
+            }
+            else if (battle.charAt(0) == b) {
+                if (battle.substring(1).indexOf(b) != -1) //ship is going vertical, same column, because second coordinate is not same row
+                {
+                    var count;
+                    if (battle.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(battle.charAt(1));
+                    }
+                    else if (battle.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else//first position is 10
+                    {
+                        count = 10;
+                    }
+                    grid[count - 1][1] = "B";
+                    grid[count][1] = "B";
+                    grid[count + 1][1] = "B";
+                    grid[count + 2][1] = "B";
+                }
+                else//ship is going horizantally, same row
+                {
+                    var count;
+                    if (battle.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(battle.charAt(1));
+                    }
+                    else if (battle.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else {
+                        count = 10;
+                    }
+                    grid[count - 1][1] = "B";
+                    grid[count - 1][2] = "B";
+                    grid[count - 1][3] = "B";
+                    grid[count - 1][4] = "B";
+                    //cant go horizontally if starting at 10
+                }
+            }
+            else if (battle.charAt(0) == c) {
+                if (battle.substring(1).indexOf(c) != -1) //ship is going vertical, same column, because second coordinate is not same row
+                {
+                    var count;
+                    if (battle.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(battle.charAt(1));
+                    }
+                    else if (battle.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else//first position is 10
+                    {
+                        count = 10;
+                    }
+                    grid[count - 1][2] = "B";
+                    grid[count][2] = "B";
+                    grid[count + 1][2] = "B";
+                    grid[count + 2][2] = "B";
+                }
+                else//ship is going horizantally, same row
+                {
+                    var count;
+                    if (battle.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(battle.charAt(1));
+                    }
+                    else if (battle.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else {
+                        count = 10;
+                    }
+                    grid[count - 1][2] = "B";
+                    grid[count - 1][3] = "B";
+                    grid[count - 1][4] = "B";
+                    grid[count - 1][5] = "B";
+                    //cant go horizontally if starting at 10
+                }
+            }
+            else if (battle.charAt(0) == d) {
+                if (battle.substring(1).indexOf(d) != -1) //ship is going vertical, same column, because second coordinate is not same row
+                {
+                    var count;
+                    if (battle.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(battle.charAt(1));
+                    }
+                    else if (battle.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else//first position is 10
+                    {
+                        count = 10;
+                    }
+                    grid[count - 1][3] = "B";
+                    grid[count][3] = "B";
+                    grid[count + 1][3] = "B";
+                    grid[count + 2][3] = "B";
+                }
+                else//ship is going horizantally, same row
+                {
+                    var count;
+                    if (battle.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(battle.charAt(1));
+                    }
+                    else if (battle.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else {
+                        count = 10;
+                    }
+                    grid[count - 1][3] = "B";
+                    grid[count - 1][4] = "B";
+                    grid[count - 1][5] = "B";
+                    grid[count - 1][6] = "B";
+                    //cant go horizontally if starting at 10
+                }
+            }
+            else if (battle.charAt(0) == e) {
+                if (battle.substring(1).indexOf(e) != -1) //ship is going vertical, same column, because second coordinate is not same row
+                {
+                    var count;
+                    if (battle.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(battle.charAt(1));
+                    }
+                    else if (battle.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else//first position is 10
+                    {
+                        count = 10;
+                    }
+                    grid[count - 1][4] = "B";
+                    grid[count][4] = "B";
+                    grid[count + 1][4] = "B";
+                    grid[count + 2][4] = "B";
+                }
+                else//ship is going horizantally, same row
+                {
+                    var count;
+                    if (battle.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(battle.charAt(1));
+                    }
+                    else if (battle.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else {
+                        count = 10;
+                    }
+                    grid[count - 1][4] = "B";
+                    grid[count - 1][5] = "B";
+                    grid[count - 1][6] = "B";
+                    grid[count - 1][7] = "B";
+                    //cant go horizontally if starting at 10
+                }
+            }
+            else if (battle.charAt(0) == f) {
+                if (battle.substring(1).indexOf(f) != -1) //ship is going vertical, same column, because second coordinate is not same row
+                {
+                    var count;
+                    if (battle.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(battle.charAt(1));
+                    }
+                    else if (battle.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else//first position is 10
+                    {
+                        count = 10;
+                    }
+                    grid[count - 1][5] = "B";
+                    grid[count][5] = "B";
+                    grid[count + 1][5] = "B";
+                    grid[count + 2][5] = "B";
+                }
+                else//ship is going horizantally, same row
+                {
+                    var count;
+                    if (battle.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(battle.charAt(1));
+                    }
+                    else if (battle.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else {
+                        count = 10;
+                    }
+                    grid[count - 1][5] = "B";
+                    grid[count - 1][6] = "B";
+                    grid[count - 1][7] = "B";
+                    grid[count - 1][8] = "B";
+                    //cant go horizontally if starting at 10
+                }
+            }
+            else if (battle.charAt(0) == g) {
+                if (battle.substring(1).indexOf(g) != -1) //ship is going vertical, same column, because second coordinate is not same row
+                {
+                    var count;
+                    if (battle.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(battle.charAt(1));
+                    }
+                    else if (battle.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else//first position is 10
+                    {
+                        count = 10;
+                    }
+
+                    grid[count - 1][6] = "B";
+                    grid[count][6] = "B";
+                    grid[count + 1][6] = "B";
+                    grid[count + 2][6] = "B";
+                }
+                else//ship is going horizantally, same row
+                {
+                    var count;
+                    if (battle.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(battle.charAt(1));
+                    }
+                    else if (battle.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else {
+                        count = 10;
+                    }
+                    grid[count - 1][6] = "B";
+                    grid[count - 1][7] = "B";
+                    grid[count - 1][8] = "B";
+                    grid[count - 1][9] = "B";
+                    //cant go horizontally if starting at 10
+                }
+            }
+            else if (battle.charAt(0) == h) {
+                if (battle.substring(1).indexOf(h) != -1) //ship is going vertical, same column, because second coordinate is not same row
+                {
+                    var count;
+                    if (battle.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(battle.charAt(1));
+                    }
+                    else if (battle.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else//first position is 10
+                    {
+                        count = 10;
+                    }
+                    grid[count - 1][7] = "B";
+                    grid[count][7] = "B";
+                    grid[count + 1][7] = "B";
+                    grid[count + 2][7] = "B";
+                }
+                else//ship is going horizantally, same row
+                {
+                    //not possible
+                }
+            }
+            else if (battle.charAt(0) == i) {
+                if (battle.substring(1).indexOf(i) != -1) //ship is going vertical, same column, because second coordinate is not same row
+                {
+                    var count;
+                    if (battle.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(battle.charAt(1));
+                    }
+                    else if (battle.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else//first position is 10
+                    {
+                        count = 10;
+                    }
+                    grid[count - 1][8] = "B";
+                    grid[count][8] = "B";
+                    grid[count + 1][8] = "B";
+                    grid[count + 2][8] = "B";
+                }
+                else//ship is going horizantally, same row
+                {
+                    //not possible
+                }
+            }
+            else if (battle.charAt(0) == j) {
+                if (battle.substring(1).indexOf(j) != -1) //ship is going vertical, same column, because second coordinate is not same row
+                {
+                    var count;
+                    if (battle.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(battle.charAt(1));
+                    }
+                    else if (battle.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else//first position is 10
+                    {
+                        count = 10;
+                    }
+                    grid[count - 1][9] = "B";
+                    grid[count][9] = "B";
+                    grid[count + 1][9] = "B";
+                    grid[count + 2][9] = "B";
+                }
+                else//ship is going horizantally, same row
+                {
+                    //not possible
+                }
+            }
+
+            //set sub in position
+            if (sub.charAt(0) == a) {
+                if (sub.substring(1).indexOf(a) != -1) //ship is going vertical, same column, because second coordinate is not same row
+                {
+                    var count;
+                    if (sub.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(sub.charAt(1));
+                    }
+                    else if (sub.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else//first position is 10
+                    {
+                        count = 10;
+                    }
+                    grid[count - 1][0] = "S";
+                    grid[count][0] = "S";
+                    grid[count + 1][0] = "S";
+                }
+                else//ship is going horizantally, same row
+                {
+                    var count;
+                    if (sub.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(sub.charAt(1));
+                    }
+                    else if (sub.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else {
+                        count = 10;
+                    }
+                    grid[count - 1][0] = "S";
+                    grid[count - 1][1] = "S";
+                    grid[count - 1][2] = "S";
+                    //cant go horizontally if starting at 10
+                }
+            }
+            else if (sub.charAt(0) == b) {
+                if (sub.substring(1).indexOf(b) != -1) //ship is going vertical, same column, because second coordinate is not same row
+                {
+                    var count;
+                    if (sub.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(sub.charAt(1));
+                    }
+                    else if (sub.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else//first position is 10
+                    {
+                        count = 10;
+                    }
+                    grid[count - 1][1] = "S";
+                    grid[count][1] = "S";
+                    grid[count + 1][1] = "S";
+                }
+                else//ship is going horizantally, same row
+                {
+                    var count;
+                    if (sub.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(sub.charAt(1));
+                    }
+                    else if (sub.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else {
+                        count = 10;
+                    }
+                    grid[count - 1][1] = "S";
+                    grid[count - 1][2] = "S";
+                    grid[count - 1][3] = "S";
+                    //cant go horizontally if starting at 10
+                }
+            }
+            else if (sub.charAt(0) == c) {
+                if (sub.substring(1).indexOf(c) != -1) //ship is going vertical, same column, because second coordinate is not same row
+                {
+                    var count;
+                    if (sub.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(sub.charAt(1));
+                    }
+                    else if (sub.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else//first position is 10
+                    {
+                        count = 10;
+                    }
+                    grid[count - 1][2] = "S";
+                    grid[count][2] = "S";
+                    grid[count + 1][2] = "S";
+                }
+                else//ship is going horizantally, same row
+                {
+                    var count;
+                    if (sub.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(sub.charAt(1));
+                    }
+                    else if (sub.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else {
+                        count = 10;
+                    }
+                    grid[count - 1][2] = "S";
+                    grid[count - 1][3] = "S";
+                    grid[count - 1][4] = "S";
+                    //cant go horizontally if starting at 10
+                }
+            }
+            else if (sub.charAt(0) == d) {
+                if (sub.substring(1).indexOf(d) != -1) //ship is going vertical, same column, because second coordinate is not same row
+                {
+                    var count;
+                    if (sub.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(sub.charAt(1));
+                    }
+                    else if (sub.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else//first position is 10
+                    {
+                        count = 10;
+                    }
+                    grid[count - 1][3] = "S";
+                    grid[count][3] = "S";
+                    grid[count + 1][3] = "S";
+                }
+                else//ship is going horizantally, same row
+                {
+                    var count;
+                    if (sub.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(sub.charAt(1));
+                    }
+                    else if (sub.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else {
+                        count = 10;
+                    }
+                    grid[count - 1][3] = "S";
+                    grid[count - 1][4] = "S";
+                    grid[count - 1][5] = "S";
+                    //cant go horizontally if starting at 10
+                }
+            }
+            else if (sub.charAt(0) == e) {
+                if (sub.substring(1).indexOf(e) != -1) //ship is going vertical, same column, because second coordinate is not same row
+                {
+                    var count;
+                    if (sub.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(sub.charAt(1));
+                    }
+                    else if (sub.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else//first position is 10
+                    {
+                        count = 10;
+                    }
+                    grid[count - 1][4] = "S";
+                    grid[count][4] = "S";
+                    grid[count + 1][4] = "S";
+                }
+                else//ship is going horizantally, same row
+                {
+                    var count;
+                    if (sub.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(sub.charAt(1));
+                    }
+                    else if (sub.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else {
+                        count = 10;
+                    }
+                    grid[count - 1][4] = "S";
+                    grid[count - 1][5] = "S";
+                    grid[count - 1][6] = "S";
+                    //cant go horizontally if starting at 10
+                }
+            }
+            else if (sub.charAt(0) == f) {
+                if (sub.substring(1).indexOf(f) != -1) //ship is going vertical, same column, because second coordinate is not same row
+                {
+                    var count;
+                    if (sub.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(sub.charAt(1));
+                    }
+                    else if (sub.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else//first position is 10
+                    {
+                        count = 10;
+                    }
+                    grid[count - 1][5] = "S";
+                    grid[count][5] = "S";
+                    grid[count + 1][5] = "S";
+                }
+                else//ship is going horizantally, same row
+                {
+                    var count;
+                    if (sub.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(sub.charAt(1));
+                    }
+                    else if (sub.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else {
+                        count = 10;
+                    }
+                    grid[count - 1][5] = "S";
+                    grid[count - 1][6] = "S";
+                    grid[count - 1][7] = "S";
+                    //cant go horizontally if starting at 10
+                }
+            }
+            else if (sub.charAt(0) == g) {
+                if (sub.substring(1).indexOf(g) != -1) //ship is going vertical, same column, because second coordinate is not same row
+                {
+                    var count;
+                    if (sub.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(sub.charAt(1));
+                    }
+                    else if (sub.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else//first position is 10
+                    {
+                        count = 10;
+                    }
+                    grid[count - 1][6] = "S";
+                    grid[count][6] = "S";
+                    grid[count + 1][6] = "S";
+                }
+                else//ship is going horizantally, same row
+                {
+                    var count;
+                    if (sub.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(sub.charAt(1));
+                    }
+                    else if (sub.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else {
+                        count = 10;
+                    }
+                    grid[count - 1][6] = "S";
+                    grid[count - 1][7] = "S";
+                    grid[count - 1][8] = "S";
+                    //cant go horizontally if starting at 10
+                }
+            }
+            else if (sub.charAt(0) == h) {
+                if (sub.substring(1).indexOf(h) != -1) //ship is going vertical, same column, because second coordinate is not same row
+                {
+                    var count;
+                    if (sub.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(sub.charAt(1));
+                    }
+                    else if (sub.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else//first position is 10
+                    {
+                        count = 10;
+                    }
+                    grid[count - 1][7] = "S";
+                    grid[count][7] = "S";
+                    grid[count + 1][7] = "S";
+                }
+                else//ship is going horizantally, same row
+                {
+                    var count;
+                    if (sub.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(sub.charAt(1));
+                    }
+                    else if (sub.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else {
+                        count = 10;
+                    }
+                    grid[count - 1][7] = "S";
+                    grid[count - 1][8] = "S";
+                    grid[count - 1][9] = "S";
+                    //cant go horizontally if starting at 10
+                }
+            }
+            else if (sub.charAt(0) == i) {
+                if (sub.substring(1).indexOf(i) != -1) //ship is going vertical, same column, because second coordinate is not same row
+                {
+                    var count;
+                    if (sub.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(sub.charAt(1));
+                    }
+                    else if (sub.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else//first position is 10
+                    {
+                        count = 10;
+                    }
+                    grid[count - 1][8] = "S";
+                    grid[count][8] = "S";
+                    grid[count + 1][8] = "S";
+                }
+                else//ship is going horizantally, same row
+                {
+                    //not possible
+                }
+            }
+            else if (sub.charAt(0) == j) {
+                if (sub.substring(1).indexOf(j) != -1) //ship is going vertical, same column, because second coordinate is not same row
+                {
+                    var count;
+                    if (sub.charAt(1) != 1)//first position is 2-9
+                    {
+                        count = parseInt(sub.charAt(1));
+                    }
+                    else if (sub.charAt(2) != 0)//first position is 1
+                    {
+                        count = 1;
+                    }
+                    else//first position is 10
+                    {
+                        count = 10;
+                    }
+                    grid[count - 1][9] = "S";
+                    grid[count][9] = "S";
+                    grid[count + 1][9] = "S";
+                }
+                else//ship is going horizantally, same row
+                {
+                    //not possible
+                }
+            }
+            return grid;
+        }
+        //end of set grid function
+
+        function checkHitOrMiss(row, col, id) {
+            //add stuff
+            var display = "";
+            var storageValue;
+            var doubleGuess = "p1" + row.toString() + col.toString();
+            if (localStorage.getItem(doubleGuess) != null) {
+                document.getElementById("display").innerHTML = "You double guessed, please guess again.";
+                document.getElementById("display").style.visibility = "visible";
+            }
+            else {
+                document.getElementById("display").style.visibility = "hidden";
+                if (enemyGrid[row][col] == "-") {
+                    storageValue = "p1Miss";
+                    document.getElementById(id).style.backgroundColor = "white";
+                    document.getElementById("display").innerHTML  = "You just missed, sorry.";
+                }
+                else {
+                    storageValue = "p1Hit";
+                    document.getElementById(id).style.backgroundColor = "red";
+                    if (enemyGrid[row][col] == "A") {
+                        var aircraftCounter = parseInt(localStorage.getItem("aircraftCounter1"));
+                        aircraftCounter = aircraftCounter + 1;
+                        localStorage.setItem("aircraftCounter1", aircraftCounter);
+                        if (parseInt(aircraftCounter) == 5) {
+                            document.getElementById("display").innerHTML = "Congrats, you just hit and sunk " + name2 + "'s Aircraft!";
+                        }
+                        else{
+                            document.getElementById("display").innerHTML  = "Hit!";
+                        }
+
+                    }
+                    else if (enemyGrid[row][col] == "B") {
+                        var battleCounter = parseInt(localStorage.getItem("battleCounter1"));
+                        battleCounter = battleCounter + 1;
+                        localStorage.setItem("battleCounter1", battleCounter);
+                        console.log(battleCounter);
+                        if (localStorage.getItem("battleCounter1") == 4) {
+                            document.getElementById("display").innerHTML = "Congrats, you just hit and sunk " + name2 + "'s Battleship!";
+                        }
+                        else{
+                            document.getElementById("display").innerHTML  = "Hit!";
+                        }
+                    }
+                    else//enemyGrid[row][col] == "S"
+                    {
+                        var subCounter = parseInt(localStorage.getItem("subCounter1"));
+                        subCounter = subCounter + 1;
+                        localStorage.setItem("subCounter1", subCounter);
+                        console.log(subCounter);
+                        if (localStorage.getItem("subCounter1") == 3) {
+                            document.getElementById("display").innerHTML = "Congrats, you just hit and sunk " + name2 + "'s Submarine!";
+                        }
+                        else{
+                            document.getElementById("display").innerHTML  = "Hit!";
+                        }
+
+                    }
+                    var aircraftCounter = parseInt(localStorage.getItem("aircraftCounter1"));
+                    var battleCounter = parseInt(localStorage.getItem("battleCounter1"));
+                    var subCounter = parseInt(localStorage.getItem("subCounter1"));
+                    if (parseInt(aircraftCounter) == 5 && parseInt(battleCounter) == 4 && parseInt(subCounter) == 3) {
+                        //they won, go to diff file
+                        localStorage.setItem("winner", "p1");
+                        setTimeout(function(){window.location.href="winScreen.html"} , 2000); 
+                    }
+
+                }
+                var storageKey = "p1" + row.toString() + col.toString();
+                localStorage.setItem(storageKey, storageValue);
+                document.getElementById("display").style.visibility = "visible";
+                setTimeout(function(){document.getElementById("myGrid").style.visibility = "hidden";document.getElementById("display").style.visibility = "hidden";
+            document.getElementById("enemyGrid").style.visibility = "hidden"; setTimeout(function(){window.location.href="player2.html";},1000) } , 3000); 
+            }
+        }
+
+        function showGrids() {
+            placeShips(myGrid);
+            placeHitOrMiss();
+
+            document.getElementById("display").style.visibility = "visible";
+            document.getElementById("beginP1").style.visibility = "hidden";
+            document.getElementById("myGrid").style.visibility = "visible";
+            document.getElementById("enemyGrid").style.visibility = "visible";
+        }
+        
+        function placeShips(grid) {
+            for (let i = 0; i < 10; i++) {
+                for (let j = 0; j < 10; j++) {
+                    if (grid[i][j] == "A") {
+                        row = i.toString();
+                        col = j.toString();
+                        var idName = "m" + row + col;
+                        document.getElementById(idName).innerHTML = "A";
+                    }
+                    else if ((grid[i][j] == "B")) {
+                        row = i.toString();
+                        col = j.toString();
+                        var idName = "m" + row + col;
+                        document.getElementById(idName).innerHTML = "B";
+                    }
+                    else if ((grid[i][j] == "S")) {
+                        row = i.toString();
+                        col = j.toString();
+                        var idName = "m" + row + col;
+                        document.getElementById(idName).innerHTML = "S";
+                    }
+                }
+            }
+        }
+
+        function placeHitOrMiss() {
+            //checking for hits from p1 or p2
+            for (let i = 0; i < 10; i++) {
+                for (let j = 0; j < 10; j++) {
+                    let getStorageKeyP1 = "p1" + i.toString() + j.toString();
+                    let getStorageKeyP2 = "p2" + i.toString() + j.toString();
+                    let myGridId = "m" + i.toString() + j.toString();
+                    let enemyGridId = "e" + i.toString() + j.toString();
+                    if (localStorage.getItem(getStorageKeyP1) != null) {//this means p1 guessed this square, so need to change my grid
+                        var hitOrMiss = localStorage.getItem(getStorageKeyP1);
+                        if (hitOrMiss == "p1Miss") {
+                            document.getElementById(enemyGridId).style.backgroundColor = "white";
+                        }
+                        else {
+                            document.getElementById(enemyGridId).style.backgroundColor = "red";
+                        }
+
+
+                    }
+
+                    if (localStorage.getItem(getStorageKeyP2) != null) {//this means p2 guessed this square, so need to change enemy grid
+                        var hitOrMiss = localStorage.getItem(getStorageKeyP2);
+                        if (hitOrMiss == "p2Miss") {
+                            document.getElementById(myGridId).style.backgroundColor = "white";
+                        }
+                        else {
+                            document.getElementById(myGridId).style.backgroundColor = "red";
+                        }
+
+
+                    }
+                }
+            }
+
+        }
+
+    </script>
+
+    <table id="myGrid" style="visibility:hidden">
+        <caption>My Grid</caption>
+        <tr>
+            <th></th>
+            <th>A</th>
+            <th>B</th>
+            <th>C</th>
+            <th>D</th>
+            <th>E</th>
+            <th>F</th>
+            <th>G</th>
+            <th>H</th>
+            <th>I</th>
+            <th>J</th>
+        </tr>
+        <tr>
+            <td class = "tableHeader">1</td>
+            <td id="m00"></td>
+            <td id="m01"></td>
+            <td id="m02"></td>
+            <td id="m03"></td>
+            <td id="m04"></td>
+            <td id="m05"></td>
+            <td id="m06"></td>
+            <td id="m07"></td>
+            <td id="m08"></td>
+            <td id="m09"></td>
+        </tr>
+        <tr>
+            <td class = "tableHeader">2</td>
+            <td id="m10"></td>
+            <td id="m11"></td>
+            <td id="m12"></td>
+            <td id="m13"></td>
+            <td id="m14"></td>
+            <td id="m15"></td>
+            <td id="m16"></td>
+            <td id="m17"></td>
+            <td id="m18"></td>
+            <td id="m19"></td>
+        </tr>
+        <tr>
+            <td class = "tableHeader">3</td>
+            <td id="m20"></td>
+            <td id="m21"></td>
+            <td id="m22"></td>
+            <td id="m23"></td>
+            <td id="m24"></td>
+            <td id="m25"></td>
+            <td id="m26"></td>
+            <td id="m27"></td>
+            <td id="m28"></td>
+            <td id="m29"></td>
+        </tr>
+        <tr>
+            <td class = "tableHeader">4</td>
+            <td id="m30"></td>
+            <td id="m31"></td>
+            <td id="m32"></td>
+            <td id="m33"></td>
+            <td id="m34"></td>
+            <td id="m35"></td>
+            <td id="m36"></td>
+            <td id="m37"></td>
+            <td id="m38"></td>
+            <td id="m39"></td>
+        </tr>
+        <tr>
+            <td class = "tableHeader">5</td>
+            <td id="m40"></td>
+            <td id="m41"></td>
+            <td id="m42"></td>
+            <td id="m43"></td>
+            <td id="m44"></td>
+            <td id="m45"></td>
+            <td id="m46"></td>
+            <td id="m47"></td>
+            <td id="m48"></td>
+            <td id="m49"></td>
+        </tr>
+        <tr>
+            <td class = "tableHeader">6</td>
+            <td id="m50"></td>
+            <td id="m51"></td>
+            <td id="m52"></td>
+            <td id="m53"></td>
+            <td id="m54"></td>
+            <td id="m55"></td>
+            <td id="m56"></td>
+            <td id="m57"></td>
+            <td id="m58"></td>
+            <td id="m59"></td>
+        </tr>
+        <tr>
+            <td class = "tableHeader">7</td>
+            <td id="m60"></td>
+            <td id="m61"></td>
+            <td id="m62"></td>
+            <td id="m63"></td>
+            <td id="m64"></td>
+            <td id="m65"></td>
+            <td id="m66"></td>
+            <td id="m67"></td>
+            <td id="m68"></td>
+            <td id="m69"></td>
+        </tr>
+        <tr>
+            <td class = "tableHeader">8</td>
+            <td id="m70"></td>
+            <td id="m71"></td>
+            <td id="m72"></td>
+            <td id="m73"></td>
+            <td id="m74"></td>
+            <td id="m75"></td>
+            <td id="m76"></td>
+            <td id="m77"></td>
+            <td id="m78"></td>
+            <td id="m79"></td>
+        </tr>
+        <tr>
+            <td class = "tableHeader">9</td>
+            <td id="m80"></td>
+            <td id="m81"></td>
+            <td id="m82"></td>
+            <td id="m83"></td>
+            <td id="m84"></td>
+            <td id="m85"></td>
+            <td id="m86"></td>
+            <td id="m87"></td>
+            <td id="m88"></td>
+            <td id="m89"></td>
+        </tr>
+        <tr>
+            <td class = "tableHeader">10</td>
+            <td id="m90"></td>
+            <td id="m91"></td>
+            <td id="m92"></td>
+            <td id="m93"></td>
+            <td id="m94"></td>
+            <td id="m95"></td>
+            <td id="m96"></td>
+            <td id="m97"></td>
+            <td id="m98"></td>
+            <td id="m99"></td>
+        </tr>
+    </table>
+
+    <table id="enemyGrid" style="visibility:hidden">
+        <caption>Enemy Grid</caption>
+        <tr>
+            <th></th>
+            <th>A</th>
+            <th>B</th>
+            <th>C</th>
+            <th>D</th>
+            <th>E</th>
+            <th>F</th>
+            <th>G</th>
+            <th>H</th>
+            <th>I</th>
+            <th>J</th>
+        </tr>
+        <tr>
+            <td class = "tableHeader">1</td>
+            <td id="e00" onclick="checkHitOrMiss(0,0,this.id)"></td>
+            <td id="e01" onclick="checkHitOrMiss(0,1,this.id)"></td>
+            <td id="e02" onclick="checkHitOrMiss(0,2,this.id)"></td>
+            <td id="e03" onclick="checkHitOrMiss(0,3,this.id)"></td>
+            <td id="e04" onclick="checkHitOrMiss(0,4,this.id)"></td>
+            <td id="e05" onclick="checkHitOrMiss(0,5,this.id)"></td>
+            <td id="e06" onclick="checkHitOrMiss(0,6,this.id)"></td>
+            <td id="e07" onclick="checkHitOrMiss(0,7,this.id)"></td>
+            <td id="e08" onclick="checkHitOrMiss(0,8,this.id)"></td>
+            <td id="e09" onclick="checkHitOrMiss(0,9,this.id)"></td>
+        </tr>
+        <tr>
+            <td class = "tableHeader">2</td>
+            <td id="e10" onclick="checkHitOrMiss(1,0,this.id)"></td>
+            <td id="e11" onclick="checkHitOrMiss(1,1,this.id)"></td>
+            <td id="e12" onclick="checkHitOrMiss(1,2,this.id)"></td>
+            <td id="e13" onclick="checkHitOrMiss(1,3,this.id)"></td>
+            <td id="e14" onclick="checkHitOrMiss(1,4,this.id)"></td>
+            <td id="e15" onclick="checkHitOrMiss(1,5,this.id)"></td>
+            <td id="e16" onclick="checkHitOrMiss(1,6,this.id)"></td>
+            <td id="e17" onclick="checkHitOrMiss(1,7,this.id)"></td>
+            <td id="e18" onclick="checkHitOrMiss(1,8,this.id)"></td>
+            <td id="e19" onclick="checkHitOrMiss(1,9,this.id)"></td>
+        </tr>
+        <tr>
+            <td class = "tableHeader">3</td>
+            <td id="e20" onclick="checkHitOrMiss(2,0,this.id)"></td>
+            <td id="e21" onclick="checkHitOrMiss(2,1,this.id)"></td>
+            <td id="e22" onclick="checkHitOrMiss(2,2,this.id)"></td>
+            <td id="e23" onclick="checkHitOrMiss(2,3,this.id)"></td>
+            <td id="e24" onclick="checkHitOrMiss(2,4,this.id)"></td>
+            <td id="e25" onclick="checkHitOrMiss(2,5,this.id)"></td>
+            <td id="e26" onclick="checkHitOrMiss(2,6,this.id)"></td>
+            <td id="e27" onclick="checkHitOrMiss(2,7,this.id)"></td>
+            <td id="e28" onclick="checkHitOrMiss(2,8,this.id)"></td>
+            <td id="e29" onclick="checkHitOrMiss(2,9,this.id)"></td>
+        </tr>
+        <tr>
+            <td class = "tableHeader">4</td>
+            <td id="e30" onclick="checkHitOrMiss(3,0,this.id)"></td>
+            <td id="e31" onclick="checkHitOrMiss(3,1,this.id)"></td>
+            <td id="e32" onclick="checkHitOrMiss(3,2,this.id)"></td>
+            <td id="e33" onclick="checkHitOrMiss(3,3,this.id)"></td>
+            <td id="e34" onclick="checkHitOrMiss(3,4,this.id)"></td>
+            <td id="e35" onclick="checkHitOrMiss(3,5,this.id)"></td>
+            <td id="e36" onclick="checkHitOrMiss(3,6,this.id)"></td>
+            <td id="e37" onclick="checkHitOrMiss(3,7,this.id)"></td>
+            <td id="e38" onclick="checkHitOrMiss(3,8,this.id)"></td>
+            <td id="e39" onclick="checkHitOrMiss(3,9,this.id)"></td>
+        </tr>
+        <tr>
+            <td class = "tableHeader">5</td>
+            <td id="e40" onclick="checkHitOrMiss(4,0,this.id)"></td>
+            <td id="e41" onclick="checkHitOrMiss(4,1,this.id)"></td>
+            <td id="e42" onclick="checkHitOrMiss(4,2,this.id)"></td>
+            <td id="e43" onclick="checkHitOrMiss(4,3,this.id)"></td>
+            <td id="e44" onclick="checkHitOrMiss(4,4,this.id)"></td>
+            <td id="e45" onclick="checkHitOrMiss(4,5,this.id)"></td>
+            <td id="e46" onclick="checkHitOrMiss(4,6,this.id)"></td>
+            <td id="e47" onclick="checkHitOrMiss(4,7,this.id)"></td>
+            <td id="e48" onclick="checkHitOrMiss(4,8,this.id)"></td>
+            <td id="e49" onclick="checkHitOrMiss(4,9,this.id)"></td>
+        </tr>
+        <tr>
+            <td class = "tableHeader">6</td>
+            <td id="e50" onclick="checkHitOrMiss(5,0,this.id)"></td>
+            <td id="e51" onclick="checkHitOrMiss(5,1,this.id)"></td>
+            <td id="e52" onclick="checkHitOrMiss(5,2,this.id)"></td>
+            <td id="e53" onclick="checkHitOrMiss(5,3,this.id)"></td>
+            <td id="e54" onclick="checkHitOrMiss(5,4,this.id)"></td>
+            <td id="e55" onclick="checkHitOrMiss(5,5,this.id)"></td>
+            <td id="e56" onclick="checkHitOrMiss(5,6,this.id)"></td>
+            <td id="e57" onclick="checkHitOrMiss(5,7,this.id)"></td>
+            <td id="e58" onclick="checkHitOrMiss(5,8,this.id)"></td>
+            <td id="e59" onclick="checkHitOrMiss(5,9,this.id)"></td>
+        </tr>
+        <tr>
+            <td class = "tableHeader">7</td>
+            <td id="e60" onclick="checkHitOrMiss(6,0,this.id)"></td>
+            <td id="e61" onclick="checkHitOrMiss(6,1,this.id)"></td>
+            <td id="e62" onclick="checkHitOrMiss(6,2,this.id)"></td>
+            <td id="e63" onclick="checkHitOrMiss(6,3,this.id)"></td>
+            <td id="e64" onclick="checkHitOrMiss(6,4,this.id)"></td>
+            <td id="e65" onclick="checkHitOrMiss(6,5,this.id)"></td>
+            <td id="e66" onclick="checkHitOrMiss(6,6,this.id)"></td>
+            <td id="e67" onclick="checkHitOrMiss(6,7,this.id)"></td>
+            <td id="e68" onclick="checkHitOrMiss(6,8,this.id)"></td>
+            <td id="e69" onclick="checkHitOrMiss(6,9,this.id)"></td>
+        </tr>
+        <tr>
+            <td class = "tableHeader">8</td>
+            <td id="e70" onclick="checkHitOrMiss(7,0,this.id)"></td>
+            <td id="e71" onclick="checkHitOrMiss(7,1,this.id)"></td>
+            <td id="e72" onclick="checkHitOrMiss(7,2,this.id)"></td>
+            <td id="e73" onclick="checkHitOrMiss(7,3,this.id)"></td>
+            <td id="e74" onclick="checkHitOrMiss(7,4,this.id)"></td>
+            <td id="e75" onclick="checkHitOrMiss(7,5,this.id)"></td>
+            <td id="e76" onclick="checkHitOrMiss(7,6,this.id)"></td>
+            <td id="e77" onclick="checkHitOrMiss(7,7,this.id)"></td>
+            <td id="e78" onclick="checkHitOrMiss(7,8,this.id)"></td>
+            <td id="e79" onclick="checkHitOrMiss(7,9,this.id)"></td>
+        </tr>
+        <tr>
+            <td class = "tableHeader">9</td>
+            <td id="80" onclick="checkHitOrMiss(8,0,this.id)"></td>
+            <td id="81" onclick="checkHitOrMiss(8,1,this.id)"></td>
+            <td id="82" onclick="checkHitOrMiss(8,2,this.id)"></td>
+            <td id="83" onclick="checkHitOrMiss(8,3,this.id)"></td>
+            <td id="84" onclick="checkHitOrMiss(8,4,this.id)"></td>
+            <td id="85" onclick="checkHitOrMiss(8,5,this.id)"></td>
+            <td id="86" onclick="checkHitOrMiss(8,6,this.id)"></td>
+            <td id="87" onclick="checkHitOrMiss(8,7,this.id)"></td>
+            <td id="88" onclick="checkHitOrMiss(8,8,this.id)"></td>
+            <td id="89" onclick="checkHitOrMiss(8,9,this.id)"></td>
+        </tr>
+        <tr>
+            <td class = "tableHeader">10</td>
+            <td id="90" onclick="checkHitOrMiss(9,0,this.id)"></td>
+            <td id="91" onclick="checkHitOrMiss(9,1,this.id)"></td>
+            <td id="92" onclick="checkHitOrMiss(9,2,this.id)"></td>
+            <td id="93" onclick="checkHitOrMiss(9,3,this.id)"></td>
+            <td id="94" onclick="checkHitOrMiss(9,4,this.id)"></td>
+            <td id="95" onclick="checkHitOrMiss(9,5,this.id)"></td>
+            <td id="96" onclick="checkHitOrMiss(9,6,this.id)"></td>
+            <td id="97" onclick="checkHitOrMiss(9,7,this.id)"></td>
+            <td id="98" onclick="checkHitOrMiss(9,8,this.id)"></td>
+            <td id="99" onclick="checkHitOrMiss(9,9,this.id)"></td>
+        </tr>
+    </table>
+
+
+</body>
+
+
+
+</html>

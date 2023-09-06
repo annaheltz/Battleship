@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+	<!-- Link in the CSS file -->
+	<link rel="stylesheet" type="text/css" href="winScreenStyle.css">
+</head>
+
+<body>
+
+    <h1>Congrats!</h1>
+
+    
+    <h2 id = "winner"> Hello </h2>
+    <h3 id = "displayScore">Test</h3>
+    <h3 id = "loserScore">Hi</h3>
+
+
+    
+    
+
+    <script>
+        var name1 = localStorage.getItem("p1name");
+        var name2 = localStorage.getItem("p2name");
+        if (localStorage.getItem("winner") == "p1") {
+            document.getElementById("winner").innerHTML = "Congrats " + name1;
+            var aircraftCounter = parseInt(localStorage.getItem("aircraftCounter2")) * 2;
+            
+            var battleCounter = parseInt(localStorage.getItem("battleCounter2")) * 2;
+            var subCounter = parseInt(localStorage.getItem("subCounter2")) * 2;
+            console.log(aircraftCounter);
+            console.log(battleCounter);
+            console.log(subCounter);
+            var score = parseInt(24);
+            score = score - aircraftCounter - battleCounter - subCounter;
+            var newScore = score.toString();
+            document.getElementById("displayScore").innerHTML = name1 + " your score is " + newScore;
+            document.getElementById("loserScore").innerHTML = name2 + " your score is 0";
+        }
+        else {
+            document.getElementById("winner").innerHTML = "Congrats " + name2;
+            var aircraftCounter = parseInt(localStorage.getItem("aircraftCounter1")) * 2;
+            var battleCounter = parseInt(localStorage.getItem("battleCounter1")) * 2;
+            var subCounter = parseInt(localStorage.getItem("subCounter1")) * 2;
+            console.log(aircraftCounter);
+            console.log(battleCounter);
+            console.log(subCounter);
+            var score = parseInt(24);
+            score = score - aircraftCounter - battleCounter - subCounter;
+            var newScore = score.toString();
+            document.getElementById("displayScore").innerHTML = name2 + " your score is " + newScore;
+            document.getElementById("loserScore").innerHTML = name1 + " your score is 0";
+        }
+
+    </script>
+</body>
+<html>
